@@ -1,20 +1,26 @@
 import React from 'react';
 import { render } from 'react-dom';
+import cn from 'classnames';
 
 class App extends React.Component {
   static defaultProps = {
     channels: [],
     messages: [],
+    currentChannelId: 0,
   }
 
   renderChannels = () => {
-    const { channels } = this.props;
+    const { channels, currentChannelId } = this.props;
     return (
-      <div class="col-3">
-        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-          {channels.map((c) => (
-            <a class="nav-link" id={c.id} data-toggle="pill" href={`#${c.name}`} role="tab" aria-controls={c.name} aria-selected="false">{c.name}</a>
-          ))}
+      <div className="d-flex flex-column mr-5">
+        <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+          {channels.map((c) => {
+            const newClass = cn({
+              'nav-link': true,
+              active: (currentChannelId === c.id),
+            });
+            return <a className={newClass} id={c.id} data-toggle="pill" href={`#${c.name}`} role="tab" aria-controls={c.name} aria-selected="false">{`#${c.name}`}</a>
+          })}
         </div>
       </div>
     );
@@ -23,10 +29,11 @@ class App extends React.Component {
   renderMessages = () => {
     const { messages } = this.props;
     return (
-      <div class="col-9">
-        <div class="tab-content" id="v-pills-tabContent">
-          <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">...</div>
-          <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
+      <div className="d-flex flex-column w-100">
+        <div className="tab-content" id="v-pills-tabContent">
+          <div className="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+            { messages.map((m) => <div>{m.text}</div>) }
+          </div>
         </div>
       </div>
     );
@@ -34,7 +41,7 @@ class App extends React.Component {
 
   render () {
     return (
-      <div class="row">
+      <div className="d-flex flex-row">
         {this.renderChannels()}
         {this.renderMessages()}
       </div>
@@ -42,7 +49,7 @@ class App extends React.Component {
   }
 };
 
-export default (channels, messages) => {
+export default ({ channels, messages, currentChannelId }) => {
   const mountNode = document.getElementById('chat');
-  render( <App channels={channels} messages={messages} />, mountNode );
+  render( <App channels={channels} messages={messages} currentChannelId={currentChannelId} />, mountNode );
 };
