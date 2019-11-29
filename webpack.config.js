@@ -5,6 +5,9 @@ module.exports = {
   ],
   externals: {
     gon: 'gon',
+    node: {
+      fs: 'empty'
+    }
   },
   resolve: {
     extensions: ['.js', '.jsx'],
