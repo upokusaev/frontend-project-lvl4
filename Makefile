@@ -3,6 +3,9 @@ install: install-deps
 start:
 	npx nodemon --exec npx babel-node server/bin/slack.js
 
+dev:
+	make build && make start
+
 install-deps:
 	npm install
 
