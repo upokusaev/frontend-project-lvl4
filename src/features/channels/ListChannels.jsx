@@ -1,24 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import cn from 'classnames';
+import { setActiveChannel } from '../channels/channelsSlice.jsx';
 
 const mapStateToProps = (state) => ({
   channels: state.channels.listChannels,
   currentChannelId: state.channels.currentChannelId,
 })
 
-// const mapDispatchToProps = {  }
+const mapDispatchToProps = { setActiveChannel }
 
-const ListChannels = ({channels, currentChannelId}) => {
+const ListChannels = ({channels, currentChannelId, setActiveChannel}) => {
+
+  const handleClick = (id) => () => {
+    setActiveChannel({ id });
+  }
+
   return (
     <div className="d-flex flex-column m-2">
-      <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <div class="btn-group-vertical">
         {channels.map((c) => {
+          const isActive = (currentChannelId === c.id);
           const newClass = cn({
-            'nav-link': true,
-            active: (currentChannelId === c.id),
+            'btn': true,
+            'btn-warning': isActive,
+            'btn-dark': !isActive,
           });
-          return <a className={newClass} id={c.id} data-toggle="pill" href={`#${c.name}`} role="tab" aria-controls={c.name} aria-selected="false">{`#${c.name}`}</a>
+          return <button type="button" class={newClass} key={c.id} onClick={handleClick(c.id)}>{`#${c.name}`}</button>
         })}
       </div>
     </div>
@@ -26,5 +34,6 @@ const ListChannels = ({channels, currentChannelId}) => {
 };
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(ListChannels)
