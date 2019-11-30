@@ -1,3 +1,4 @@
-# Demo
+# Real-time chat
 
-[https://minichat-up.herokuapp.com/](https://minichat-up.herokuapp.com/)
+#### Проект находится в разработке
+Промежуточный результат: [https://minichat-up.herokuapp.com/](https://minichat-up.herokuapp.com/)
