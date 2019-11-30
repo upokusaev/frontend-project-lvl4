@@ -17,11 +17,12 @@ const ListChannels = ({channels, currentChannelId, setActiveChannel}) => {
   }
 
   return (
-    <div className="d-flex flex-column m-2">
+    <div className="col-3 d-flex flex-column p-3 bg-light border-right">
       <div class="btn-group-vertical">
         {channels.map((c) => {
           const isActive = (currentChannelId === c.id);
           const newClass = cn({
+            'text-left': true,
             'btn': true,
             'btn-warning': isActive,
             'btn-dark': !isActive,

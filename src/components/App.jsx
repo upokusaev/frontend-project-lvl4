@@ -19,7 +19,7 @@ export default (userName) => {
 
   const App = () => {
     return (
-      <div className="d-flex flex-row border border-dark rounded h-100">
+      <div className="d-flex flex-row border rounded h-100">
         <ListChannels/>
         <ListMessages>
           <AddMessage/>

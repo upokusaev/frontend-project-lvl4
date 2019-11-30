@@ -49,7 +49,7 @@ const AddMessage = ({ channelId, addMessage}) => {
   }
 
   return (
-    <div className="d-flex flex-column w-100">
+    <div className="d-flex flex-column w-100 pt-3 border-top">
       <Formik
         initialValues={{ text: '' }}
         validate={values => {
