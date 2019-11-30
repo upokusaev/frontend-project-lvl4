@@ -32,6 +32,7 @@ const AddMessage = ({ channelId, addMessage}) => {
   })
 
   const handleSumbitForm = ({ text }, { setSubmitting, resetForm }) => {
+
     const body = {
       data: { 
         attributes: { 
@@ -40,19 +41,11 @@ const AddMessage = ({ channelId, addMessage}) => {
         }
       }
     }
+
     axios.post(routes.channelMessagesPath(channelId), body)
-      .then((data) => {
-        console.log(data);
-        return data;
-      })
-      .then(({status}) => {
-        if (status === 201) {
-          resetForm();
-        } else {
-          console.log('ОШИБКА СЕТИ');
-        }
-        setSubmitting(false);
-      });
+      .then(() => resetForm())
+      .catch(() => console.log('ОШИБКА СЕТИ')) // ПЕРЕДЕЛАТЬ
+      .finally(() => setSubmitting(false));
   }
 
   return (
@@ -79,20 +72,24 @@ const AddMessage = ({ channelId, addMessage}) => {
           resetForm,
         }) => (
           <form onSubmit={handleSubmit}>
-          <div className="form-group form-check d-flex w-100">
-            <input
-                type="text"
-                name="text"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.text}
-                className="d-flex w-100"
+            <div className="form-group form-check d-flex w-100">
+              <input
+                  type="text"
+                  name="text"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.text}
+                  className="d-flex w-100"
               />
               {errors.text && touched.text && errors.text}
-            <button type="submit" className="btn btn-warning d-flex h-100 ml-1 mr-2" disabled={isSubmitting}>
-              Отправить
-            </button>
-          </div>
+              <button 
+                type="submit" 
+                className="btn btn-warning d-flex h-100 ml-1 mr-2" 
+                disabled={isSubmitting}
+              >
+                Отправить
+              </button>
+            </div>
           </form>
         )}
       </Formik>
