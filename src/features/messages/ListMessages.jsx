@@ -23,7 +23,9 @@ const ListMessages = ({messages, children}) => {
   useEffect(() => {
     setTimeout(() => {
       const lastMsg = document.querySelector('.last-msg'); // ТАК НЕЛЬЗЯ, ИСПРАВИТЬ!!!
-      lastMsg.scrollIntoView(true);
+      if (lastMsg) {
+        lastMsg.scrollIntoView(true);
+      }
     }, 100);
   })
 
