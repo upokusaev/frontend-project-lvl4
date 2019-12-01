@@ -1,62 +1,44 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import io from 'socket.io-client';
-import { addMessage } from './messagesSlice.jsx'
-import routes from '../../routes'
-import { UserNameContext } from '../../components/App.jsx'
-// import cn from 'classnames';
-
-const socket = io();
+import UserNameContext from '../../conexts/userNameContext.jsx';
+import routes from '../../routes';
 
 const mapStateToProps = (state) => ({
   channelId: state.channels.currentChannelId,
-})
+});
 
-const mapDispatch = { addMessage };
-
-
-const AddMessage = ({ channelId, addMessage}) => {
-
+const AddMessage = ({ channelId }) => {
   const userName = useContext(UserNameContext);
 
-  useEffect(() => {
-    socket.on('newMessage', (data) => {
-      addMessage(data);
-    });
-
-    return () => {
-      socket.off('newMessage');
-    }
-  })
-
   const handleSumbitForm = ({ text }, { setSubmitting, resetForm }) => {
-
     const body = {
-      data: { 
-        attributes: { 
+      data: {
+        attributes: {
           text,
-          userName
-        }
-      }
-    }
+          userName,
+        },
+      },
+    };
 
     axios.post(routes.channelMessagesPath(channelId), body)
       .then(() => resetForm())
-      .catch(() => console.log('ОШИБКА СЕТИ')) // ПЕРЕДЕЛАТЬ
+      .catch(() => {
+        throw new Error('Connection error'); // ПЕРЕДЕЛАТЬ
+      })
       .finally(() => setSubmitting(false));
-  }
+  };
 
   return (
     <div className="d-flex flex-column w-100 pt-3 border-top">
       <Formik
         initialValues={{ text: '' }}
-        validate={values => {
+        validate={(values) => {
           const errors = {};
           if (!values.text) {
-            errors.email = 'Required';
-          } 
+            errors.text = 'Сообщение не может быть пустым';
+          }
           return errors;
         }}
         onSubmit={handleSumbitForm}
@@ -69,22 +51,21 @@ const AddMessage = ({ channelId, addMessage}) => {
           handleBlur,
           handleSubmit,
           isSubmitting,
-          resetForm,
         }) => (
           <form onSubmit={handleSubmit}>
             <div className="form-group form-check d-flex w-100">
               <input
-                  type="text"
-                  name="text"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.text}
-                  className="d-flex w-100"
+                type="text"
+                name="text"
+                placeholder={(errors.text && touched.text && errors.text) || 'Введите сообщение'}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.text}
+                className="d-flex w-100 pl-1"
               />
-              {errors.text && touched.text && errors.text}
-              <button 
-                type="submit" 
-                className="btn btn-warning d-flex h-100 ml-1 mr-2" 
+              <button
+                type="submit"
+                className="btn btn-warning d-flex h-100 ml-1 mr-2"
                 disabled={isSubmitting}
               >
                 Отправить
@@ -99,5 +80,5 @@ const AddMessage = ({ channelId, addMessage}) => {
 
 export default connect(
   mapStateToProps,
-  mapDispatch
-)(AddMessage)
+  null,
+)(AddMessage);
