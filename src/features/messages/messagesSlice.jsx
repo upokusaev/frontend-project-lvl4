@@ -6,12 +6,11 @@ const messagesSlice = createSlice({
   initialState: gon.messages.slice(0),
   reducers: {
     addMessage(state, action) {
-      // console.log(action);
       state.push(action.payload.data.attributes);
     },
-  }
-})
+  },
+});
 
-export const { addMessage } = messagesSlice.actions;
+export const { actions } = messagesSlice;
 
 export default messagesSlice.reducer;
