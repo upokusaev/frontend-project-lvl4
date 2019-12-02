@@ -43,6 +43,9 @@ const ModalAddChannel = ({ hideModal }) => {
             if (!values.text) {
               errors.text = 'Имя канала не может быть пустым';
             }
+            if (values.text.length > 15) {
+              errors.text = 'Макс.длина - 15 символов';
+            }
             return errors;
           }}
           onSubmit={handleSumbitForm}
