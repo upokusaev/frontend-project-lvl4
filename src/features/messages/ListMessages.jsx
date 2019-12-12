@@ -30,7 +30,7 @@ const ListMessages = ({ messages, children }) => {
 
   return (
     <div className="d-flex flex-column w-100">
-      <div className="d-flex flex-column w-100 h-100 pl-4 pt-4 pr-4 overflow-auto">
+      <div className="d-flex flex-column w-100 h-100 pl-4 pt-4 pr-4 text-break overflow-auto">
         <div className="mt-auto" />
         { messages.map((m, i) => {
           const isMyMsg = m.userName === userName;
