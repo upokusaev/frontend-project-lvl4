@@ -7,4 +7,5 @@
 
 #### Проект находится в разработке 
 *Код пока лучше не смотреть) хотя бейджи "codeclimat" и "travis" на это и так явно намекают*
+
 Промежуточный результат: [https://minichat-up.herokuapp.com/](https://minichat-up.herokuapp.com/)
